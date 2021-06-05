@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awesomeProject/handlers"
+	"github.com/codonomado/awesomeProject/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +10,11 @@ import (
 func main() {
 	l := log.New(os.Stdout, "stuff-api", log.LstdFlags)
 	hh := handlers.NewHello(l)
+	gh := handlers.Goodie(l)
 
-	http.ListenAndServe(":9090", nil)
+	sm := http.NewServeMux()
+	sm.Handle("/", hh)
+	sm.Handle("/goodie", hh)
+
+	http.ListenAndServe(":9090", sm)
 }
