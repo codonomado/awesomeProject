@@ -1,19 +1,24 @@
 package data
 
 import (
-	"time"
+	"encoding/json"
+	"io"
 )
 
 type Stuff struct {
-	ID			int
-	Name		string
-	Description string
-	CreatedOn	string
-	UpdatedOn	string
-	DeletedOn	string
+	ID			int `json:"id"`
+	Name		string `json:"name"`
+	Description string `json:"description"`
 }
 
-func getStuffs() []*Stuff {
+type Stuffs []*Stuff
+
+func (s *Stuffs) ToJSON(w io.Writer) error {
+	e := json.NewEncoder(w)
+	return e.Encode(s)
+}
+
+func GetStuffs() []*Stuff {
 	return stuffList
 }
 
@@ -22,14 +27,10 @@ var stuffList = []*Stuff{
 		ID:				1,
 		Name:			"iPhone",
 		Description:	"Should be at least v11",
-		CreatedOn: 		time.Now().UTC().String(),
-		UpdatedOn: 		time.Now().UTC().String(),
 	},
 	&Stuff{
 		ID:				2,
 		Name:			"Monitor",
 		Description:	"Either Samsung or LG",
-		CreatedOn: 		time.Now().UTC().String(),
-		UpdatedOn: 		time.Now().UTC().String(),
 	},
 }
